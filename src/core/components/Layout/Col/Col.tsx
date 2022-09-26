@@ -1,7 +1,12 @@
 import React from 'react'
+import styled from 'styled-components'
 import { s } from '../../../utils'
 
-export const SCol = s.div(({ width }: any) => ({
+const SColTest = styled.div(({ theme }) => {
+
+})
+
+export const SCol = s.div<{ width: number }>(({ width }) => ({
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',

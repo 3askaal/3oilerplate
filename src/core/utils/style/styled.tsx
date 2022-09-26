@@ -1,21 +1,22 @@
-import styledComponents, { IntrinsicElementsKeys, StyledComponent } from 'styled-components'
+import styledComponents, { StyledComponent } from 'styled-components'
 import { css, CssFunctionReturnType, SystemStyleObject, Theme } from '@styled-system/css'
 import { forOwn, get, mapValues, wrap } from 'lodash'
 import deepmerge from 'deepmerge'
 
-export type SStyles = SystemStyleObject
-export type SVariants = { [variantKey: string]: SStyles }
-export type SComponents = { [componentKey: string]: { default?: SStyles, variants?: SVariants } }
+export type SStyles<P extends object> = SystemStyleObject | ((params: { theme: STheme } & P) => SystemStyleObject)
+export type SVariants<P> = { [variantKey: string]: SStyles<P> }
+export type SComponents = { [componentKey: string]: { default?: SStyles<any>, variants?: SVariants<any> } }
 export type STheme = Theme & { components: SComponents }
+
 export interface SProps {
   sRef: string;
   children: React.ReactNode;
-  theme: STheme;
   s: SystemStyleObject;
+  theme: STheme;
   [key: string]: any;
 }
 
-type SDeclParams = (SStyles | SVariants | string)
+// type SDeclParams = (SStyles | SVariants | string)
 
 // Resolves either style functions or style objects
 const parseStyles = (styles: SystemStyleObject, props: SProps) => {
@@ -23,13 +24,13 @@ const parseStyles = (styles: SystemStyleObject, props: SProps) => {
 }
 
 // Resolves all styles with Styled System's CSS helper
-export const mergeStyles = (props: SProps, ...declParams: SDeclParams[]): CssFunctionReturnType[] => {
+export const mergeStyles = (props: SProps, defaultStyles: SStyles, variantStyles?: SVariants, sRef?: string): CssFunctionReturnType[] => {
   const styleFunctions: CssFunctionReturnType[] = []
 
-  // TODO: Define types in order in declParams rest param
-  const defaultStyles = declParams[0] as SStyles | undefined
-  const variantStyles = declParams[1] as SVariants | undefined
-  const sRef = declParams[2] as string | undefined
+  // // TODO: Define types in order in declParams rest param
+  // const defaultStyles = declParams[0] as SStyles | undefined
+  // const variantStyles = declParams[1] as SVariants | undefined
+  // const sRef = declParams[2] as string | undefined
 
   // Declare inline styles
   const inlineStyles = props.s
@@ -52,7 +53,7 @@ export const mergeStyles = (props: SProps, ...declParams: SDeclParams[]): CssFun
     // Merge variants defined in component and in theme
     const mergedVariants = deepmerge(variantStyles || {}, themeComponentStyles?.variants || {})
 
-    forOwn(mergedVariants, (variantStyle: SystemStyleObject, variantKey: string) => {
+    forOwn(mergedVariants, (variantStyle, variantKey: string) => {
       if (props[variantKey]) {
         styleFunctions.push(parseStyles(variantStyle, props))
       }
@@ -75,15 +76,19 @@ export const mergeStyles = (props: SProps, ...declParams: SDeclParams[]): CssFun
   return styleFunctions
 }
 
-interface SWrapperCallback { (props: SProps): any; }
+// interface SWrapperCallback { (props: SProps): any; }
+// type SWrapper = (cb: SWrapperCallback) => SReturnType;
+// type SReturnType = StyledComponent<(IntrinsicElementsKeys | React.ComponentType<any>), Theme>;
+// type SWrapper<P> = (defaultStyles: SStyles<P>, variantStyles?: SVariants<P>, key?: string) => StyledComponent<(IntrinsicElementsKeys | React.ComponentType<any>), Theme>
 
-type SWrapper = (cb: SWrapperCallback) => SReturnType;
-type SReturnType = StyledComponent<IntrinsicElementsKeys | React.ComponentType<any>, Theme>;
+type S = {
+  [TTag in keyof JSX.IntrinsicElements]: <P>(defaultStyles: SStyles<P>, variantStyles?: SVariants<P>, key?: string) => StyledComponent<TTag, STheme>
+};
 
-export const s = mapValues(
+export const s: S = mapValues(
   styledComponents,
   (value) => {
-    return wrap<SWrapper, SDeclParams, SReturnType>(value, (func, ...declParams) => {
+    return wrap(value, (func, ...declParams: any[]): any => {
       return func((props) => {
         return mergeStyles(props, ...declParams)
       })
