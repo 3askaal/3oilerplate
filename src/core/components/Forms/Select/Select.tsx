@@ -23,6 +23,7 @@ export const Select: FC<SelectProps> = ({
   block,
   onChange,
   value,
+  ...props
 }: SelectProps): ReactElement => {
   const selectRef: any = useRef()
 
@@ -55,7 +56,7 @@ export const Select: FC<SelectProps> = ({
   }
 
   return (
-    <SSelectWrapper sRef="Select_Wrapper" s={{ width: block && '100%' }}>
+    <SSelectWrapper sRef="Select_Wrapper" s={{ width: block && '100%' }} {...props}>
       <SSelect
         sRef="Select"
         multiple={multi}
