@@ -1,13 +1,14 @@
 import { s } from '../../../utils'
 import { FormElementReset } from '../reset'
 
-export const SSelectWrapper = s.div({
+export const SSelectWrapper = s.div(({ block }) => ({
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
   padding: 0,
   cursor: 'pointer',
-})
+  width: block && '100%'
+}))
 
 export const SSelect = s.select(({ theme }) => ({
   ...FormElementReset,

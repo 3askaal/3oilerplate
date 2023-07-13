@@ -20,7 +20,6 @@ interface SelectProps {
 export const Select: FC<SelectProps> = ({
   options,
   multi,
-  block,
   onChange,
   value,
   ...props
@@ -56,7 +55,7 @@ export const Select: FC<SelectProps> = ({
   }
 
   return (
-    <SSelectWrapper sRef="Select_Wrapper" s={{ width: block && '100%' }} {...props}>
+    <SSelectWrapper sRef="Select_Wrapper" {...props}>
       <SSelect
         sRef="Select"
         multiple={multi}
