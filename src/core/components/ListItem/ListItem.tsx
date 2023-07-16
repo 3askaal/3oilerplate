@@ -3,7 +3,6 @@ import { s } from '../../utils'
 
 export const SListItem = s.div(
   {
-    display: 'flex',
     padding: 's',
 
     '+ *': {
