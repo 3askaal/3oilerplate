@@ -35,8 +35,8 @@ export const colors: Colors = {
   secondary,
   secondaryDark,
   code: 'rgb(42, 39, 52)',
-  positive: mix('green', primary, 0.1),
-  negative: mix('red', primary, 0.1),
+  positive: mix('green', primary, 0.1).hex(),
+  negative: mix('red', primary, 0.1).hex(),
   misc: {
     overlay: rgba('black', .25)
   },
