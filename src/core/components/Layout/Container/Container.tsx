@@ -5,7 +5,6 @@ export const SContainer = s.div({
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',
-  // flexGrow: 1,
   width: '100%',
   maxWidth: '1200px',
 })
