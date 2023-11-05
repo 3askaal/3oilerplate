@@ -1,21 +1,8 @@
-import styledComponents, { IntrinsicElementsKeys, StyledComponent } from 'styled-components'
-import { css, CssFunctionReturnType, SystemStyleObject, Theme } from '@styled-system/css'
+import styledComponents from 'styled-components'
+import { css, CssFunctionReturnType, SystemStyleObject } from '@styled-system/css'
 import { forOwn, get, mapValues, wrap } from 'lodash'
 import deepmerge from 'deepmerge'
-
-export type SStyles = SystemStyleObject
-export type SVariants = { [variantKey: string]: SStyles }
-export type SComponents = { [componentKey: string]: { default?: SStyles, variants?: SVariants } }
-export type STheme = Theme & { components: SComponents }
-export interface SProps {
-  sRef: string;
-  children: React.ReactNode;
-  theme: STheme;
-  s: SystemStyleObject;
-  [key: string]: any;
-}
-
-type SDeclParams = (SStyles | SVariants | string)
+import { SDeclParams, SProps, SReturnType, SStyles, SVariants, SWrapper } from '../types'
 
 // Resolves either style functions or style objects
 const parseStyles = (styles: SystemStyleObject, props: SProps) => {
@@ -74,11 +61,6 @@ export const mergeStyles = (props: SProps, ...declParams: SDeclParams[]): CssFun
 
   return styleFunctions
 }
-
-interface SWrapperCallback { (props: SProps): any; }
-
-type SWrapper = (cb: SWrapperCallback) => SReturnType;
-type SReturnType = StyledComponent<IntrinsicElementsKeys | React.ComponentType<any>, Theme>;
 
 export const s = mapValues(
   styledComponents,
