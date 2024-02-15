@@ -15,7 +15,7 @@ export const SSelect = s.select(({ theme }) => ({
   cursor: 'pointer',
   paddingRight: `calc(${theme.space.s} + 24px)`,
   width: '100%',
-  color: 'primary',
+  color: 'currentColor',
   border: 'thick',
   borderColor: 'primary',
   borderRadius: 'm',
