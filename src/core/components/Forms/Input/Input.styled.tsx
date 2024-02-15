@@ -5,13 +5,13 @@ export const SInput = s.input(
   {
     ...FormElementReset,
     display: 'flex',
-    border: 'thick',
+    padding: 's',
+    width: 'auto',
     color: 'primary',
+    backgroundColor: 'transparent',
+    border: 'thick',
     borderColor: 'primary',
     borderRadius: 'm',
-    padding: 's',
-    backgroundColor: 'transparent',
-    width: 'auto !important',
 
     ':focus': {
       outline: 0,
