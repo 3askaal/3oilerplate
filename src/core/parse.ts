@@ -27,25 +27,29 @@ export const parse = (style: TStyle, props: TStyleProps): CSS.Properties => {
       return merge({}, acc, values.reduce((acc, value, index) => {
         if (value === null || value === undefined) return acc
         // get value from theme
-        const themeValue: string | null = themeKey && get(props.theme[themeKey], value)
+        const themeValue: string | null = themeKey && props.theme && get(props.theme[themeKey], value)
         // mutate value when format matches
         const mutatedValue = /^\[([^]*?)\]$/.test(value) ? getMutatedValue(value, themeKey, props) : null
         // define media query when index !== 0
         const mediaQuery = (!!index && !!props.theme.breakpoints.length && `@media (min-width: ${props.theme.breakpoints[index - 1]})`) || ''
+        // transform number to pixel value if needed
+        const pxValue = (themeKey === 'sizes' || themeKey === 'space') && typeof value === 'number' ? `${value}px` : null
 
         return {
           ...acc,
           // define style at root
-          ...(!mediaQuery && { [property]: themeValue ?? mutatedValue ?? value }),
+          ...(!mediaQuery && { [property]: themeValue ?? mutatedValue ?? pxValue ?? value }),
           // define style in media query
-          ...(mediaQuery && { [mediaQuery]: { [property]: themeValue ?? mutatedValue ?? value } })
+          ...(mediaQuery && { [mediaQuery]: { [property]: themeValue ?? mutatedValue ?? pxValue ?? value } })
         }
       }, {}))
     }, {}))
   }, {})
 }
 
-export const parseVariants = (variants: TStyleVariants, props: TStyleProps) => {
+export const parseVariants = (variants: TStyleVariants, props: TStyleProps): CSS.Properties => {
   const variantsObject = isFunction(variants) ? variants(props) : variants
-  return Object.entries(variantsObject).filter(([key]) => props[key]).map(([, value]) => parse(value, props))
+  return Object.entries(variantsObject)
+    .filter(([key]) => props[key])
+    .reduce((acc, [, value]) => merge(acc, parse(value, props)), {})
 }

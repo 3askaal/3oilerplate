@@ -12,7 +12,7 @@ export const Checkbox = ({ onChange, checked: defaultChecked, label, icon, ...pr
   return (
     <SCheckbox {...props}>
       <input type="checkbox" defaultChecked={checked} onChange={onChangeHandler} style={{ display: 'none' }} />
-      <SCheckboxInput sref="Checkbox_Indicator" checked={checked}>{icon || null}</SCheckboxInput>
+      <SCheckboxInput sref="CheckboxInput" checked={checked}>{icon || null}</SCheckboxInput>
       { label && <SCheckboxLabel sref="Checkbox_Label">{label}</SCheckboxLabel> }
     </SCheckbox>
   )

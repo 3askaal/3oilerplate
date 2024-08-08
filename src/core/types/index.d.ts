@@ -1,7 +1,6 @@
 import type { PropsWithChildren } from 'react'
-import type { SHORTHANDS } from '../constants'
+import type { SHORTHANDS, TAGS } from '../constants'
 import type { colors } from '../../style'
-import type styled from 'styled-components'
 import type * as CSS from 'csstype'
 
 export type TThemeColors = typeof colors;
@@ -15,9 +14,10 @@ export interface TTheme {
   fonts: Record<string, string>
   colors: TThemeColors
   space: Record<string, string | number>
-  durations: Record<string, string | number>
+  sizes: Record<string, number>
   borders: Record<string, string>
   radii: Record<string, string | number>
+  durations: Record<string, string | number>
   components?: TThemeComponents
 }
 
@@ -33,5 +33,5 @@ export type TKeyframesKeys = 'from' | 'to' | '1%' | '2%' | '3%' | '4%' | '5%' | 
 export type TKeyframesObject = Partial<Record<TKeyframesKeys, TStyleObject>>
 
 export type TSWrapper = {
-  [key in keyof typeof styled]: (defaults: TStyle, variants?: TStyle, id?: string) => (typeof styled)[key]
+  [key in typeof TAGS]: (defaults: TStyle, variants?: TStyle, id?: string) => any
 }

@@ -1,5 +1,10 @@
+let tag = null
+
 export const inject = (css: string): void => {
-  const style = window.document.createElement('style')
-  style.textContent = css
-  window.document.head.appendChild(style)
+  if (!tag) {
+    tag = window.document.createElement('style')
+    window.document.head.appendChild(tag)
+  }
+
+  tag.textContent += css
 }

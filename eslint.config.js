@@ -54,7 +54,7 @@ export default [
       '@typescript-eslint/no-array-delete': ['error'],
       '@typescript-eslint/no-base-to-string': ['error'],
       '@typescript-eslint/no-confusing-non-null-assertion': ['error'],
-      '@typescript-eslint/no-confusing-void-expression': ['error', { ignoreArrowShorthand: false, ignoreVoidOperator: false }],
+      // '@typescript-eslint/no-confusing-void-expression': ['error', { ignoreArrowShorthand: false, ignoreVoidOperator: false }],
       '@typescript-eslint/no-duplicate-enum-values': ['error'],
       '@typescript-eslint/no-duplicate-type-constituents': ['error', { ignoreIntersections: false, ignoreUnions: false }],
       '@typescript-eslint/no-dynamic-delete': ['error'],

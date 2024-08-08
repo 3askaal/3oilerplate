@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { ThemeProvider } from 'styled-components'
-import { theme, RootStyle, ResetStyle } from '../../src'
+import { RootStyle, theme, ThemeProvider } from '../../src'
 import { NavProvider } from './context'
 import { ComponentsView, DocsView, HomeView } from './views'
 import { Wrapper } from './components'
@@ -23,8 +22,8 @@ const App = () => {
               preview: {
                 paddingY: 's',
                 paddingX: 'xs',
-                borderRadius: 's',
                 bgc: 'primary',
+                borderRadius: 's',
                 color: 'white',
                 textAlign: 'center'
               }
@@ -33,7 +32,7 @@ const App = () => {
         }
       }}>
         <SApp>
-          <ResetStyle />
+          {/* <ResetStyle /> */}
           <RootStyle />
           <Wrapper>
             <Routes>

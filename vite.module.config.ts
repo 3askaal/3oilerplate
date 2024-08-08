@@ -20,12 +20,11 @@ export default defineConfig(() => ({
       fileName: (format) => `3oilerplate.${format}.js`
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'styled-components'],
+      external: ['react', 'react-dom'],
       output: {
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
-          'styled-components': 'styled'
         },
         interop: 'compat'
       }

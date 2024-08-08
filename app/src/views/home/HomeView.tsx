@@ -16,9 +16,6 @@ export const HomeView = () => {
               <Title as="h4" s={{ color: 'grey[80]' }}>
                 Personal component library and toolkit for React
               </Title>
-              <Text>
-                Built with <a target="_blank" href="https://styled-components.com/">Styled Components</a>
-              </Text>
             </Spacer>
           </Spacer>
           <Spacer s={{ flexDirection: 'row', justifyContent: 'center' }}>

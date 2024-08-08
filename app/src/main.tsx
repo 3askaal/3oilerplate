@@ -4,7 +4,7 @@ import { HashRouter } from 'react-router-dom'
 
 import App from './App.tsx'
 
-// import 'reset-css/reset.css'
+import 'reset-css/reset.css'
 import './fonts.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

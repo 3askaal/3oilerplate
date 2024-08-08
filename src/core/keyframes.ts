@@ -1,13 +1,12 @@
 import ShortUniqueId from 'short-unique-id'
-import { inject } from './inject'
+import { stringify, inject } from './'
 import type { TKeyframesObject } from './types'
 
 export const keyframes = (keyframes: TKeyframesObject): string => {
-  const prefix = '@keyframes'
-  const name = new ShortUniqueId({ length: 10 }).rnd()
-  const animation = JSON.stringify(keyframes, null, 2).replaceAll('"', '').replaceAll('},', '}').replaceAll(': {', ' {')
+  const id = new ShortUniqueId({ length: 20, dictionary: 'alpha' }).rnd()
+  const css = `@keyframes ${id} {\n${stringify(keyframes, 1)}}\n`
 
-  inject([prefix, name, animation].join(' '))
+  inject(id, css)
 
-  return name
+  return id
 }

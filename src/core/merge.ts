@@ -1,26 +1,27 @@
+import { merge } from 'lodash'
 import { parse, parseVariants, type TStyle, type TStyleProps, type TStyleVariants } from '.'
 import type * as CSS from 'csstype'
 
-export const merge = (props: TStyleProps, defaults?: TStyle, variants?: TStyleVariants, sref?: string): CSS.Properties[] => {
-  const styles = []
+export const apply = (props: TStyleProps, defaults?: TStyle, variants?: TStyleVariants, sref?: string): CSS.Properties => {
+  let style = {}
 
   // Apply defaults
-  if (defaults) { styles.push(parse(defaults, props)) }
+  if (defaults) { style = merge(style, parse(defaults, props)) }
 
   // Apply variants
-  if (variants) { styles.push(parseVariants(variants, props)) }
+  if (variants) { style = merge(style, parseVariants(variants, props)) }
 
   // Get component styles from theme
   const themeStyles = (props.theme.components?.[props.sref ?? sref ?? '']) ?? {}
 
   // Apply defaults from theme
-  if (themeStyles.defaults) { styles.push(parse(themeStyles.defaults, props)) }
+  if (themeStyles.defaults) { style = merge(style, parse(themeStyles.defaults, props)) }
 
   // Apply variants from theme
-  if (themeStyles.variants) { styles.push(parseVariants(themeStyles.variants, props)) }
+  if (themeStyles.variants) { style = merge(style, parseVariants(themeStyles.variants, props)) }
 
   // Apply inline styling
-  if (props.s) { styles.push(parse({ '&&&': props.s }, props)) }
+  if (props.s) { style = merge(style, parse(props.s, props)) }
 
-  return styles
+  return style
 }

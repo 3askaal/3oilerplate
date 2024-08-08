@@ -1,11 +1,20 @@
-import { ThemeProvider as OriginalThemeProvider } from 'styled-components'
 import { merge } from 'lodash'
-import { theme as DEFAULT_THEME } from '../style/theme'
+import { createContext, type PropsWithChildren, useMemo } from 'react'
+import { theme as defaultTheme } from '../style/theme'
+import type { TTheme } from './types'
 
-export const ThemeProvider = ({ children, theme }) => {
+interface ThemeContextProps {
+  theme: TTheme
+}
+
+export const ThemeContext = createContext<ThemeContextProps>({ theme: defaultTheme })
+
+export const ThemeProvider = ({ children, theme }: ThemeContextProps & PropsWithChildren) => {
+  const mergedTheme = useMemo(() => merge(theme, defaultTheme), [theme])
+
   return (
-    <OriginalThemeProvider theme={merge(DEFAULT_THEME, theme)}>
+    <ThemeContext.Provider value={{ theme: mergedTheme }}>
       { children }
-    </OriginalThemeProvider>
+    </ThemeContext.Provider>
   )
 }

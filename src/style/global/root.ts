@@ -1,32 +1,28 @@
-import { createGlobalStyle } from 'styled-components'
-import { parse } from '../../core'
+import { createGlobalStyle } from '../../core/global'
 
-export const RootStyle = createGlobalStyle(({ theme, ...props }) => parse(
-  {
-    '*': {
-      boxSizing: 'border-box'
-    },
+export const RootStyle = createGlobalStyle(({ theme }) => ({
+  '*': {
+    boxSizing: 'border-box'
+  },
 
-    html: {
-      minHeight: '100%',
-      fontSize: theme?.rootFontSizes,
-      WebkitFontSmoothing: 'antialiased',
-      MozOsxFontSmoothing: 'grayscale',
-      scrollBehavior: 'smooth'
-    },
+  ':root': {
+    minHeight: '100%',
+    fontSize: theme.rootFontSizes,
+    scrollBehavior: 'smooth',
+    MozOsxFontSmoothing: 'grayscale',
+    WebkitFontSmoothing: 'antialiased'
+  },
 
-    a: {
-      color: 'primary',
-      textDecoration: 'underline',
+  a: {
+    color: 'primary',
+    textDecoration: 'underline',
 
-      '&:hover': {
-        color: 'primaryDark'
-      }
-    },
-
-    svg: {
-      display: 'block'
+    '&:hover': {
+      color: 'primaryDark'
     }
   },
-  { theme, ...props }
-))
+
+  svg: {
+    display: 'block'
+  }
+}))
